@@ -1,5 +1,6 @@
-const O_PLAYER = 'O';
-const X_PLAYER = 'X';
+const O_PLAYER = "O";
+const X_PLAYER = "X";
+const Analyzer = require('./analyzer');
 
 class Referee {
   constructor(grid) {
@@ -8,16 +9,36 @@ class Referee {
   }
 
   play(col) {
-      try {
-        this.grid.add(this.currentPlayer, col);
-        this._switchPlayer();
-      } catch(e) {
-        console.log(e);
+    try {
+      this.grid.add(this.currentPlayer, col);
+
+      const status = this._status();
+
+      if (status === true) {
+        return this.currentPlayer;
+      } else if (status === null) {
+        return 'draw';
       }
+
+      this._switchPlayer();
+      return false;
+    } catch(e) {
+      // console.log(e);
+      throw new Error(e.message);
+    }
+  }
+
+  getCurrentPlayerToken() {
+    return this.currentPlayer;
   }
 
   _switchPlayer(){
     this.currentPlayer = (this.currentPlayer === O_PLAYER) ? X_PLAYER : O_PLAYER
+  }
+
+  _status(){
+    const analyzer = new Analyzer(this.grid.render());
+    return analyzer.check(this.currentPlayer)
   }
 }
 

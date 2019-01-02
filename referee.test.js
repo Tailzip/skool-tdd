@@ -26,7 +26,7 @@ describe("referee", () => {
   it("should ask player to retry he tries to put a 7th token in a column", () => {
     const grid = new Grid();
     const referee = new Referee(grid);
-    
+
     referee.play(0);
     referee.play(0);
     referee.play(0);
@@ -43,5 +43,86 @@ describe("referee", () => {
     expectedGrid += `${X_PLAYER}......\n`;
     expectedGrid += `${O_PLAYER}${O_PLAYER}.....\n`;
     expect(grid.render()).toBe(expectedGrid);
+  });
+
+  it("should tell 'O' is a winner", () => {
+    const grid = new Grid();
+    const referee = new Referee(grid);
+
+    referee.play(0);
+    referee.play(1);
+    referee.play(0);
+    referee.play(1);
+    referee.play(0);
+    referee.play(1);
+
+    expect(referee.play(0)).toBe(O_PLAYER);
+  });
+
+  it("should tell the game is on", () => {
+    const grid = new Grid();
+    const referee = new Referee(grid);
+
+    referee.play(0);
+    referee.play(1);
+    referee.play(0);
+    referee.play(1);
+
+    expect(referee.play(0)).toBe(false);
+  });
+
+  it("should tell the game is draw", () => {
+    const grid = new Grid();
+    const referee = new Referee(grid);
+
+    referee.play(0);
+    referee.play(1);
+    referee.play(0);
+    referee.play(1);
+    referee.play(0);
+    referee.play(1);
+
+    referee.play(2);
+    referee.play(3);
+    referee.play(2);
+    referee.play(3);
+    referee.play(2);
+    referee.play(3);
+
+    referee.play(4);
+    referee.play(5);
+    referee.play(4);
+    referee.play(5);
+    referee.play(4);
+    referee.play(5);
+
+    referee.play(6);
+    referee.play(0);
+    referee.play(6);
+    referee.play(0);
+    referee.play(6);
+    referee.play(0);
+
+    referee.play(1);
+    referee.play(2);
+    referee.play(1);
+    referee.play(2);
+    referee.play(1);
+    referee.play(2);
+
+    referee.play(3);
+    referee.play(4);
+    referee.play(3);
+    referee.play(4);
+    referee.play(3);
+    referee.play(4);
+
+    referee.play(5);
+    referee.play(6);
+    referee.play(5);
+    referee.play(6);
+    referee.play(5);
+
+    expect(referee.play(6)).toBe('draw');
   });
 });

@@ -10,20 +10,20 @@ function rotate(matrix) {
 };
 
 class Grid {
-    constructor(){ 
+    constructor(){
        this.reset()
     }
 
     render(){
         const tmpGrid = this.grid.map((col, index) => {
-            const tmpCol = col;
+            const tmpCol = [...col];
             const tmpColLength = tmpCol.length;
             for(let i = 0; i <= rowMax - tmpColLength - 1; i++) {
-                tmpCol.push('.');
+                tmpCol.push(".");
             }
 
             return tmpCol;
-        });
+        }, []);
 
         return rotate(rotate(rotate(tmpGrid))).map(col => col.join('')).join('\n') + '\n';
     }
