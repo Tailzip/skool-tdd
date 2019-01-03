@@ -54,9 +54,7 @@ class Application {
       new Array(this.value + 1).join("   ") +
         currentPlayerToken +
         new Array(MAX - this.value + 1).join("   ") +
-        "(" +
-        (this.value + 1) +
-        ")\n"
+        "\n"
     );
   }
 
@@ -79,11 +77,11 @@ class Application {
         }
       }
 
-      if (key.name === "space") {
+      if (key.name === "space" || key.name === "return") {
         try {
-            status = this.referee.play(this.value);
-        } catch(e) {
-            error = 'You cannot play in that colmun anymore!'.red;
+          status = this.referee.play(this.value);
+        } catch (e) {
+          error = "You cannot play in that colmun anymore!".red;
         }
       }
 
@@ -96,11 +94,14 @@ class Application {
       this._grid();
 
       if (typeof status === "string") {
-          stdout.write(`\n🎊  🎉  ${status}  wins! 🎊  🎉`.green.bold);
+        stdout.write(
+          `\n🎊  🎉 ${this._tokenDisplayReplace(status)} wins! 🎊  🎉`.green
+            .bold
+        );
       }
 
-      if (error && error !== '') {
-          stdout.write('\n' + error);
+      if (error && error !== "") {
+        stdout.write("\n" + error);
       }
 
       if (key.sequence === "\u0003") {
